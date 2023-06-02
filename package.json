@@ -5,6 +5,14 @@
   "main": "index.js",
   "scripts": {
   },
+  "devDependencies": {
+    "aws-cdk": "2.82.0",
+    "typescript": "~5.0.4"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "2.82.0",
+    "constructs": "^10.2.31"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/code-by/nodejs-aws-be.git"
