@@ -1,0 +1,29 @@
+{
+  "name": "rss-aws-be",
+  "version": "1.0.0",
+  "description": "Backend app for RS School NodeJS AWS course assigments tasks",
+  "main": "index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/code-by/nodejs-aws-be.git"
+  },
+  "keywords": [
+    "nodejs",
+    "assignments",
+    "rsschool",
+    "aws",
+    "cloud"
+  ],
+  "author": "code-by",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/code-by/nodejs-aws-be/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "type": "module",
+  "homepage": "https://github.com/code-by/nodejs-aws-be#readme"
+}
