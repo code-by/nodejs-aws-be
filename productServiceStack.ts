@@ -16,6 +16,10 @@ export class ProductServiceStack extends cdk.Stack {
       bundling: {
         format: lambdaNode.OutputFormat.ESM,
       },
+      environment: {
+        TABLE_PRODUCTS: "products",
+        TABLE_STOCKS: "stocks",
+      },
     };
 
     const getProductsListLambda = new lambdaNode.NodejsFunction(
@@ -27,6 +31,7 @@ export class ProductServiceStack extends cdk.Stack {
         ...commonLambdaProps,
       }
     );
+    // lambdas:
     const getProductsByIdLambda = new lambdaNode.NodejsFunction(
       this,
       "ProductsByIdCDK",
@@ -36,7 +41,17 @@ export class ProductServiceStack extends cdk.Stack {
         ...commonLambdaProps,
       }
     );
+    const productPostLambda = new lambdaNode.NodejsFunction(
+      this,
+      "ProductCreatePost",
+      {
+        functionName: "createProduct",
+        entry: path.join(__dirname, "/productServiceCDK/createProduct.mjs"),
+        ...commonLambdaProps,
+      }
+    );
 
+    // gateway:
     const api = new apigateway.LambdaRestApi(this, "ProductService", {
       handler: getProductsListLambda,
       proxy: false,
@@ -44,9 +59,25 @@ export class ProductServiceStack extends cdk.Stack {
       defaultCorsPreflightOptions: {
         allowHeaders: ["*"],
         allowOrigins: ["*"],
-        allowMethods: ["GET", "OPTIONS"],
+        allowMethods: ["GET", "OPTIONS", "POST", "PUT"],
       },
     });
+
+    // policies
+    const policyDynamoDBPutItem = new cdk.aws_iam.PolicyStatement({
+      actions: ["dynamodb:PutItem"],
+      resources: ["*"],
+    });
+
+    const policyDynamoDBScan = new cdk.aws_iam.PolicyStatement({
+      actions: ["dynamodb:Scan", "dynamodb:GetItem"],
+      resources: ["*"],
+    });
+
+    // attach policies to lambdas
+    getProductsListLambda.addToRolePolicy(policyDynamoDBScan);
+    getProductsByIdLambda.addToRolePolicy(policyDynamoDBScan);
+    productPostLambda.addToRolePolicy(policyDynamoDBPutItem);
 
     // GET /products
     const products = api.root.addResource("products");
@@ -57,6 +88,12 @@ export class ProductServiceStack extends cdk.Stack {
     productsById.addMethod(
       "GET",
       new apigateway.LambdaIntegration(getProductsByIdLambda)
+    );
+
+    // POST /products/
+    products.addMethod(
+      "POST",
+      new apigateway.LambdaIntegration(productPostLambda)
     );
   }
 }
