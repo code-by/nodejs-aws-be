@@ -1,7 +1,7 @@
 {
-  "name": "rss-aws-be",
+  "name": "rss-aws-import-service",
   "version": "1.0.0",
-  "description": "Backend app for RS School NodeJS AWS course assigments tasks",
+  "description": "Import service for backend app (RS School NodeJS AWS course)",
   "main": "index.js",
   "scripts": {
     "build": "tsc",
@@ -15,8 +15,8 @@
     "@types/node": "^20.2.5",
     "@typescript-eslint/eslint-plugin": "^5.59.8",
     "@typescript-eslint/parser": "^5.59.8",
-    "aws-cdk": "2.82.0",
-    "babel-eslint": "^10.1.0",
+    "aws-sdk": "^2.1395.0",
+    "aws-sdk-mock": "^5.8.0",
     "eslint": "^8.41.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
@@ -26,13 +26,7 @@
     "typescript": "~5.0.4"
   },
   "dependencies": {
-    "@aws-sdk/s3-request-presigner": "^3.354.0",
-    "@aws-sdk/client-dynamodb": "^3.350.0",
-    "@aws-sdk/client-s3": "^3.354.0",
-    "@aws-sdk/lib-dynamodb": "^3.350.0",
-    "aws-cdk-lib": "2.82.0",
-    "aws-sdk": "^2.1395.0",
-    "constructs": "^10.2.31",
+    "@aws-sdk/client-s3": "^3.352.0",
     "csv-parser": "^3.0.0"
   },
   "repository": {
@@ -44,7 +38,8 @@
     "assignments",
     "rsschool",
     "aws",
-    "cloud"
+    "cloud",
+    "lambda"
   ],
   "author": "code-by",
   "license": "ISC",

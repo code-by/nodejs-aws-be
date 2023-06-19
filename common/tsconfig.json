@@ -1,12 +1,8 @@
 {
-  "ts-node": {
-    "esm": true,
-    "experimentalSpecifierResolution": "node"
-  },
   "compilerOptions": {
     "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "node",
+    "module": "ES2020",
+    "moduleResolution": "Node",
     "lib": [
       "es2020",
       "dom"
@@ -27,13 +23,10 @@
     "strictPropertyInitialization": false,
     "isolatedModules": true, // ???
     "typeRoots": [
-      "./node_modules/@types"
+      "../node_modules/@types"
     ]
   },
   "exclude": [
     "node_modules",
-    "import-service/node_modules",
-    "cdk.out"
   ],
-  "include": ["/**/*.ts"]
 }

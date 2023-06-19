@@ -124,7 +124,10 @@ export default {
   // rootDir: './productServiceCDK',
 
   // A list of paths to directories that Jest should use to search for files in
-  roots: ["./productServiceCDK"],
+  roots: [
+    // "./productServiceCDK"
+    "./import-service"
+  ],
 
   // Allows you to use a custom runner instead of Jest's default test runner
   // runner: "jest-runner",
@@ -153,7 +156,7 @@ export default {
   // The glob patterns Jest uses to detect test files
   testMatch: [
   //   "**/__tests__/**/*.[jt]s?(x)",
-    "**/?(*.)+(spec|test).[tj]s?(x)",
+   // "**/?(*.)+(spec|test).[tj]s?(x)",
     "**/?(*.)+(spec|test).mjs",
   ],
 
@@ -190,6 +193,6 @@ export default {
   // watchPathIgnorePatterns: [],
 
   // Whether to use watchman for file crawling
-  // watchman: true,
+  watchman: true,
   extensionsToTreatAsEsm: [],
 };

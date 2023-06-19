@@ -1,4 +1,4 @@
-import { buildResponse, getTablesNames } from "./utils.mjs";
+import { buildResponse, getTablesNames } from "../common/utils.mjs";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import {
   TransactGetCommand,
