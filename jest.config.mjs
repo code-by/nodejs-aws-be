@@ -195,4 +195,8 @@ export default {
   // Whether to use watchman for file crawling
   watchman: true,
   extensionsToTreatAsEsm: [],
+  moduleNameMapper: {
+    '^@aws-sdk/client-s3$': '<rootDir>/import-service/__mocks__/client-s3.mjs',
+    '^@aws-sdk/s3-request-presigner$': '<rootDir>/import-service/__mocks__/s3-request-presigner.mjs'
+  },
 };
