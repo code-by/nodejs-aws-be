@@ -4,7 +4,7 @@ import {
 } from "@aws-sdk/client-dynamodb";
 import { randomUUID } from "crypto";
 
-import { buildResponse, getTablesNames } from "./utils.mjs";
+import { buildResponse, getTablesNames } from "../common/utils.mjs";
 
 const dynamo = new DynamoDBClient();
 

@@ -1,4 +1,4 @@
-import { buildResponse, getTablesNames } from "./utils.mjs";
+import { buildResponse, getTablesNames } from "../common/utils.mjs";
 import { ScanCommand } from "@aws-sdk/lib-dynamodb";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 
@@ -11,9 +11,6 @@ export const handler = async () => {
 
   try {
 
-    // TODO:
-    // 1. get table names from ENV
-    // 2. log requests/env data
     let tableProducts, tableStocks;
 
     try {
