@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "cdk": "cdk",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles",
+    "test-silent": "node --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles --silent",
     "deploy": "cdk deploy",
     "products:writeMockData": "sh ./productServiceCDK/scripts/products-create-items.sh"
   },
@@ -26,14 +27,17 @@
     "typescript": "~5.0.4"
   },
   "dependencies": {
-    "@aws-sdk/s3-request-presigner": "^3.354.0",
     "@aws-sdk/client-dynamodb": "^3.350.0",
     "@aws-sdk/client-s3": "^3.354.0",
+    "@aws-sdk/client-sns": "^3.360.0",
+    "@aws-sdk/client-sqs": "^3.357.0",
     "@aws-sdk/lib-dynamodb": "^3.350.0",
+    "@aws-sdk/s3-request-presigner": "^3.354.0",
     "aws-cdk-lib": "2.82.0",
     "aws-sdk": "^2.1395.0",
     "constructs": "^10.2.31",
-    "csv-parser": "^3.0.0"
+    "csv-parser": "^3.0.0",
+    "dotenv": "^16.3.1"
   },
   "repository": {
     "type": "git",

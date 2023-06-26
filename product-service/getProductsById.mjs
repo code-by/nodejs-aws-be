@@ -1,13 +1,12 @@
-import { buildResponse, getTablesNames } from "../common/utils.mjs";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import {
   TransactGetCommand,
   DynamoDBDocumentClient,
 } from "@aws-sdk/lib-dynamodb";
+import { buildResponse, getTablesNames } from "../common/utils.mjs";
 
 const getProductById = async (id) => {
-
-  console.log('request product with id:', id);
+  console.log("request product with id:", id);
 
   let tableProducts, tableStocks;
 

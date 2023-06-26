@@ -10,7 +10,6 @@ export const handler = async () => {
   };
 
   try {
-
     let tableProducts, tableStocks;
 
     try {
@@ -25,25 +24,27 @@ export const handler = async () => {
 
     let command;
 
-    productsParams.TableName = 'products';
+    productsParams.TableName = tableProducts;
     command = new ScanCommand(productsParams);
     const productsResult = await client.send(command);
     const products = productsResult.Items;
 
-    productsParams.TableName = 'stocks';
+    productsParams.TableName = tableStocks;
     command = new ScanCommand(productsParams);
     const stocksResult = await client.send(command);
     const stocks = stocksResult.Items;
-    
+
     const productsWithStocks = [];
 
     for (const product of products) {
-      const productStock = stocks.find(stock => stock.product_id === product.id);
+      const productStock = stocks.find(
+        (stock) => stock.product_id === product.id
+      );
 
       if (productStock) {
-        const {product_id, ...joinedItem} = {
+        const { product_id, ...joinedItem } = {
           ...product,
-          ...productStock
+          ...productStock,
         };
         productsWithStocks.push(joinedItem);
       }

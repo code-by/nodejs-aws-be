@@ -9,7 +9,6 @@ import { buildResponse, getTablesNames } from "../common/utils.mjs";
 const dynamo = new DynamoDBClient();
 
 export const handler = async (event) => {
-
   let body = {};
   let statusCode;
   const headers = {
@@ -17,11 +16,10 @@ export const handler = async (event) => {
   };
 
   try {
-
     statusCode = 400;
     const parsed_body = JSON.parse(event.body);
-    if (typeof parsed_body !== 'object') {
-      throw ({message: 'bad request'});
+    if (typeof parsed_body !== "object") {
+      throw { message: "bad request" };
     }
 
     // check request data:
@@ -33,7 +31,7 @@ export const handler = async (event) => {
       price,
       count,
     };
-    console.log('request data:', request_data);
+    console.log("request data:", request_data);
 
     title = title ? title.trim() : "";
     description = description ? description.trim() : "";
@@ -84,17 +82,15 @@ export const handler = async (event) => {
     statusCode = 500;
     const command = new TransactWriteItemsCommand(params);
     await dynamo.send(command);
- 
+
     statusCode = 201;
     body = {
-      result: 'ok',
+      result: "ok",
       id,
     };
- 
   } catch (err) {
     body = { err: err.message };
   }
 
   return buildResponse(statusCode, body, headers);
-
 };

@@ -7,7 +7,6 @@ import * as lambdaEvents from "aws-cdk-lib/aws-lambda-event-sources";
 import * as path from "path";
 import { fileURLToPath } from "url";
 
-//import { bucketName, uploadCSVFolder } from "";
 import { constants } from "./common/constants.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -33,22 +32,10 @@ export class ImportServiceStack extends cdk.Stack {
     // buckets
 
     // uploading csv
-    //console.warn(constants);
     const { bucketName, uploadCSVFolder } = constants;
     console.warn(bucketName, uploadCSVFolder);
 
     const bucket = s3.Bucket.fromBucketName(this, bucketName, bucketName);
-
-    //bucket.grantPut();
-    /*
-    bucket.addCorsRule({
-      allowedOrigins: ['*'], // Replace with your desired allowed origins
-      allowedMethods: [s3.HttpMethods.GET, s3.HttpMethods.PUT], // Replace with desired allowed HTTP methods
-      allowedHeaders: ['*'], // Replace with desired allowed headers
-      exposedHeaders: ['ETag'], // Replace with desired exposed headers
-      maxAge: 300, // Replace with desired max age in seconds
-    });
-    */
 
     // lambdas
 
@@ -90,9 +77,9 @@ export class ImportServiceStack extends cdk.Stack {
       filters: [{ prefix: "upload/" }],
     });
     */
-    // create lambda trigger by s3 event
     //importFileParserLambda.addEventSource(bucketEventSource);
 
+    // create lambda trigger by s3 event
     bucket.addEventNotification(
       s3.EventType.OBJECT_CREATED,
       new cdk.aws_s3_notifications.LambdaDestination(importFileParserLambda),
@@ -103,7 +90,6 @@ export class ImportServiceStack extends cdk.Stack {
 
     const api = new apigateway.RestApi(this, "ImportService", {
       // handler: importProductsFileLambda,
-      //proxy: false,
       description: "ImportService REST API",
       defaultCorsPreflightOptions: {
         allowHeaders: ["*"],
@@ -112,15 +98,8 @@ export class ImportServiceStack extends cdk.Stack {
       },
     });
 
-    // attach policies to lambdas
-    //getProductsListLambda.addToRolePolicy(policyDynamoDBScan);
-
     // GET /import?name=
     const importRoot = api.root.addResource("import");
-    // importRoot.addMethod("GET");
-
-    // GET /import?name=
-    // importRoot.addResource("{name}");
     importRoot.addMethod(
       "GET",
       new apigateway.LambdaIntegration(importProductsFileLambda),
@@ -131,12 +110,12 @@ export class ImportServiceStack extends cdk.Stack {
       }
     );
 
-    // POST /products/
-    /*
-    products.addMethod(
-      "POST",
-      new apigateway.LambdaIntegration(productPostLambda)
+    // sqs
+    importFileParserLambda.addToRolePolicy(
+      new cdk.aws_iam.PolicyStatement({
+        actions: ["sqs:SendMessage"],
+        resources: ["arn:aws:sqs:eu-west-1:887176529808:CatalogItemsQueue"],
+      })
     );
-    */
   }
 }
