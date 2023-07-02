@@ -125,8 +125,8 @@ export default {
 
   // A list of paths to directories that Jest should use to search for files in
   roots: [
-    // "./productServiceCDK"
-    "./import-service"
+    "./product-service"
+    //"./import-service"
   ],
 
   // Allows you to use a custom runner instead of Jest's default test runner
@@ -197,6 +197,7 @@ export default {
   extensionsToTreatAsEsm: [],
   moduleNameMapper: {
     '^@aws-sdk/client-s3$': '<rootDir>/import-service/__mocks__/client-s3.mjs',
+    '^@aws-sdk/client-sns$': '<rootDir>/product-service/__mocks__/client-sns.mjs',
     '^@aws-sdk/s3-request-presigner$': '<rootDir>/import-service/__mocks__/s3-request-presigner.mjs'
   },
 };

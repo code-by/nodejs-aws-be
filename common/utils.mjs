@@ -12,6 +12,7 @@ export const buildResponse = (statusCode, body, headers = {}) => {
 };
 
 export const getTablesNames = () => {
+  console.log('getTablesNames');
   try {
     const { TABLE_PRODUCTS: tableProducts, TABLE_STOCKS: tableStocks } =
       process?.env || "";

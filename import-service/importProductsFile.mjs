@@ -16,13 +16,12 @@ export const handler = async (event = {}) => {
   };
 
   try {
-
-    const {bucketName, uploadCSVFolder} = constants;
+    const { bucketName, uploadCSVFolder } = constants;
 
     const client = new S3Client();
 
     const queryString = event?.queryStringParameters;
-    console.log('queryString');
+    console.log("queryString");
     console.log(queryString);
     if (!queryString || Object.keys(queryString).length != 1 || !queryString?.name) {
       throw ({message: 'Bad request', statusCode: 400});
@@ -31,20 +30,18 @@ export const handler = async (event = {}) => {
     const putObjectParams = {
       ACL: "public-read-write",
       Bucket: bucketName,
-      Key: `${uploadCSVFolder}/${queryString?.name}`
+      Key: `${uploadCSVFolder}/${queryString?.name}`,
     };
 
     const command = new PutObjectCommand(putObjectParams);
     const url = await presignedUrl(client, command);
     body = url;
-
   } catch (e) {
     console.log("some error happens");
     console.log(e);
     body = { message: e.message || "unknown error" };
     statusCode = e.statusCode || 500;
   }
-  
-  return buildResponse(statusCode, body, headers);
 
+  return buildResponse(statusCode, body, headers);
 };
