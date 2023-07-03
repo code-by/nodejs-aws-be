@@ -3,7 +3,6 @@ import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as apigateway from "aws-cdk-lib/aws-apigateway";
 import * as lambdaNode from "aws-cdk-lib/aws-lambda-nodejs";
 import * as s3 from "aws-cdk-lib/aws-s3";
-import * as lambdaEvents from "aws-cdk-lib/aws-lambda-event-sources";
 import * as path from "path";
 import { fileURLToPath } from "url";
 
@@ -71,14 +70,6 @@ export class ImportServiceStack extends cdk.Stack {
       }
     );
 
-    /*
-    const bucketEventSource = new lambdaEvents.S3EventSource(bucket, {
-      events: [s3.EventType.OBJECT_CREATED],
-      filters: [{ prefix: "upload/" }],
-    });
-    */
-    //importFileParserLambda.addEventSource(bucketEventSource);
-
     // create lambda trigger by s3 event
     bucket.addEventNotification(
       s3.EventType.OBJECT_CREATED,
@@ -89,13 +80,23 @@ export class ImportServiceStack extends cdk.Stack {
     // gateway
 
     const api = new apigateway.RestApi(this, "ImportService", {
-      // handler: importProductsFileLambda,
       description: "ImportService REST API",
       defaultCorsPreflightOptions: {
         allowHeaders: ["*"],
         allowOrigins: ["*"],
         allowMethods: ["GET", "OPTIONS", "POST", "PUT"],
+        allowCredentials: true,
       },
+    });
+
+    // auth lambda
+    const authLambda = new apigateway.TokenAuthorizer(this, "TokenAuthorizer", {
+      handler: lambda.Function.fromFunctionName(
+        this,
+        "BasicAuthorizerAuth",
+        "basicAuthorizer"
+      ),
+      identitySource: "method.request.header.Authorization",
     });
 
     // GET /import?name=
@@ -107,6 +108,7 @@ export class ImportServiceStack extends cdk.Stack {
         requestParameters: {
           "method.request.querystring.name": true,
         },
+        authorizer: authLambda,
       }
     );
 
