@@ -36,12 +36,14 @@ export class ProductServiceStack extends cdk.Stack {
       },
     };
 
+    const lambdasSourcePath = path.join(__dirname, "/product-service");
+
     const getProductsListLambda = new lambdaNode.NodejsFunction(
       this,
       "ProductsListCDK",
       {
         functionName: "getProductsList",
-        entry: path.join(__dirname, "/productServiceCDK/getProductsList.mjs"),
+        entry: path.join(lambdasSourcePath, "/getProductsList.mjs"),
         ...commonLambdaProps,
       }
     );
@@ -52,7 +54,7 @@ export class ProductServiceStack extends cdk.Stack {
       "ProductsByIdCDK",
       {
         functionName: "getProductsById",
-        entry: path.join(__dirname, "/productServiceCDK/getProductsById.mjs"),
+        entry: path.join(lambdasSourcePath, "/getProductsById.mjs"),
         ...commonLambdaProps,
       }
     );
@@ -61,7 +63,7 @@ export class ProductServiceStack extends cdk.Stack {
       "ProductCreatePost",
       {
         functionName: "createProduct",
-        entry: path.join(__dirname, "/productServiceCDK/createProduct.mjs"),
+        entry: path.join(lambdasSourcePath, "/createProduct.mjs"),
         ...commonLambdaProps,
       }
     );
@@ -119,10 +121,7 @@ export class ProductServiceStack extends cdk.Stack {
       "ProductBatchCreateSQS",
       {
         functionName: "catalogBatchProcess",
-        entry: path.join(
-          __dirname,
-          "/productServiceCDK/catalogBatchProcess.mjs"
-        ),
+        entry: path.join(__dirname, "/product-service/catalogBatchProcess.mjs"),
         ...commonLambdaProps,
         environment: {
           ...commonLambdaProps.environment,
